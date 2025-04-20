@@ -2,7 +2,7 @@
     "tasks": {
         "dev": "deno run --watch src/main.ts",
         "build": "deno run -A build.ts",
-        "rsync": "rsync -av --delete index.html dist grafg1.spengergasse.at:www/dijkstra-web/",
+        "rsync": "rsync -av --delete index.html dist grafg1.spengergasse.at:grg/dijkstra-web/",
         "deploy": "deno task build && deno task rsync",
         "watch_build": "watchexec -w src -- deno run -A build.ts"
     },
