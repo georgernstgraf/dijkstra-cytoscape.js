@@ -72,14 +72,14 @@ export class App {
             "density-label",
         );
         this.dom_nodes["density"] = document.getElementById("density");
-        this.dom_nodes["density"]!.addEventListener("change", () => {
+        this.dom_nodes["density"]!.addEventListener("input", () => {
             const value = (this.dom_nodes["density"] as HTMLInputElement).value;
             (this.dom_nodes["density-label"] as HTMLLabelElement).textContent =
                 "Density: " + value;
         });
         this.dom_nodes["nodes-label"] = document.getElementById("nodes-label");
         this.dom_nodes["nodes"] = document.getElementById("nodes");
-        this.dom_nodes["nodes"]!.addEventListener("change", () => {
+        this.dom_nodes["nodes"]!.addEventListener("input", () => {
             const value = (this.dom_nodes["nodes"] as HTMLInputElement).value;
             (this.dom_nodes["nodes-label"] as HTMLLabelElement).textContent =
                 "Nodes: " + value;
@@ -95,12 +95,10 @@ export class App {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    "density":
-                        (this.dom_nodes["density"] as HTMLInputElement)
-                            .valueAsNumber,
-                    "nodes":
-                        (this.dom_nodes["nodes"] as HTMLInputElement)
-                            .valueAsNumber,
+                    "density": (this.dom_nodes["density"] as HTMLInputElement)
+                        .valueAsNumber,
+                    "nodes": (this.dom_nodes["nodes"] as HTMLInputElement)
+                        .valueAsNumber,
                     "weighted": true,
                 }),
             },
