@@ -64,7 +64,60 @@ export class App {
             "click",
             this.do_dijkstra.bind(this),
         );
+        this.dom_nodes["load-random"] = document.getElementById("load-random");
+        this.dom_nodes["load-random"]!.addEventListener("click", async () => {
+            await this.load_random();
+        });
+        this.dom_nodes["density-label"] = document.getElementById(
+            "density-label",
+        );
+        this.dom_nodes["density"] = document.getElementById("density");
+        this.dom_nodes["density"]!.addEventListener("change", () => {
+            const value = (this.dom_nodes["density"] as HTMLInputElement).value;
+            (this.dom_nodes["density-label"] as HTMLLabelElement).textContent =
+                "Density: " + value;
+        });
+        this.dom_nodes["nodes-label"] = document.getElementById("nodes-label");
+        this.dom_nodes["nodes"] = document.getElementById("nodes");
+        this.dom_nodes["nodes"]!.addEventListener("change", () => {
+            const value = (this.dom_nodes["nodes"] as HTMLInputElement).value;
+            (this.dom_nodes["nodes-label"] as HTMLLabelElement).textContent =
+                "Nodes: " + value;
+        });
     }
+    async load_random() {
+        const response = await fetch(
+            //"https://grafg1.spengergasse.at/graphsupply/random",
+            "/graphsupply/random",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    "density":
+                        (this.dom_nodes["density"] as HTMLInputElement)
+                            .valueAsNumber,
+                    "nodes":
+                        (this.dom_nodes["nodes"] as HTMLInputElement)
+                            .valueAsNumber,
+                    "weighted": true,
+                }),
+            },
+        );
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        const json = await response.json();
+        App.json_add_named_nodes(json);
+        this.populate_start_end(json.nodes);
+        this.paint_graph(json);
+
+        console.log("Random graph data:", json);
+        //this.paint_graph(data);
+    }
+    // Handle the response data here
+
     do_dijkstra() {
         console.log("Dijkstra button clicked");
         if (!this.cy) {
@@ -111,26 +164,28 @@ export class App {
         console.log("JSON data:", json);
         // have to handle nodenames myself
         if (!json.nodes) {
-            let letters;
-            // letters or numbers depending on matrix.length
-            const length = json.matrix.length;
-            if (length > 26) {
-                letters = Array.from(
-                    { length },
-                    (_, i) => String(i + 1),
-                );
-            } else {
-                letters = Array.from(
-                    { length },
-                    (_, i) => String.fromCharCode(65 + i),
-                );
-                json.nodes = letters;
-            }
+            App.json_add_named_nodes(json);
         }
         this.populate_start_end(json.nodes);
         this.paint_graph(json);
     }
-
+    static json_add_named_nodes(json: SupplyJson) {
+        // letters or numbers depending on matrix.length
+        let letters;
+        const length = json.matrix.length;
+        if (length > 26) {
+            letters = Array.from(
+                { length },
+                (_, i) => String(i + 1),
+            );
+        } else {
+            letters = Array.from(
+                { length },
+                (_, i) => String.fromCharCode(65 + i),
+            );
+        }
+        json.nodes = letters;
+    }
     paint_graph(json: SupplyJson) {
         //        json.nodes: ["A", "B", "C"]     json.matrix: [][];
 

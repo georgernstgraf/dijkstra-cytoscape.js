@@ -9,11 +9,9 @@ function main(): void {
     const app = new App();
     globalThis.app = app;
     setTimeout(() => {
-        const choose: HTMLSelectElement = app
-            .dom_nodes["choose"]! as HTMLSelectElement;
-        choose.selectedIndex =
-            Math.floor(Math.random() * (choose.options.length - 1)) + 1; // first is "choose a graph"
-        choose.dispatchEvent(new Event("change"));
+        const random = app
+            .dom_nodes["load-random"]! as HTMLButtonElement;
+        random.dispatchEvent(new Event("click"));
     }, 1000);
 }
 

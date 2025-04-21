@@ -16,11 +16,37 @@
             crossorigin="anonymous"></script>-->
     <!-- In your index.html -->
     <style>
-        #cy-canvas {
-            aspect-ratio: 1;
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        main.container {
+            flex: 0 0 320px;
+            /* fixed width, adjust as needed */
+            max-width: 350px;
+            min-width: 220px;
             width: 100%;
-            max-height: 80vh;
-            display: block;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1;
+        }
+
+        #cy-canvas {
+            width: 100%;
+            height: 100vh;
+            max-height: 100vh;
+            min-width: 0;
+            margin: 0;
         }
     </style>
     <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
@@ -28,30 +54,48 @@
             defer></script>
 </head>
 
-<body>
-    <main class="container text-center">
-        <h1 class="my-3">Let's try Dijkstra</h1>
-        <label class="">Choose a graph:
-            <select class="ms-2"
-                    name="choose"
-                    id="choose"></select>
-        </label>
-        <div id="inputs"
-             class="d-flex w-auto mt-3 justify-content-around align-items-center">
+<body class="d-flex flex-row">
+    <main class="container gap-3 d-flex w-auto ms-3 justify-content-center align-items-baseline flex-column">
+        <h2 class="my-3">Let's try Dijkstra</h2>
+        <select class="my-2"
+                name="choose"
+                id="choose"></select>
+        <div name="random-controls">
+            <label for="density"
+                   id="density-label"
+                   class="form-label">Density: 40</label>
+            <input type="range"
+                   class="form-range"
+                   min="5"
+                   max="75"
+                   step="5"
+                   id="density">
+            <label for="nodes"
+                   id="nodes-label"
+                   class="form-label">Nodes: 22</label>
+            <input type="range"
+                   class="form-range"
+                   min="4"
+                   max="40"
+                   step="1"
+                   id="nodes">
             <button type="button"
-                    class="btn btn-secondary"
-                    id="theme-toggle">toggle theme</button>
-            <label>Start Node:<select class="ms-2"
-                        id="select-start"></select></label>
-            <label>End Node:<select class="ms-2"
-                        id="select-end"></select></label>
-            <button id="btn_calculate"
-                    class="btn btn-info"
-                    type="button">calculate</button>
+                    class="btn btn-secondary my-2"
+                    id="load-random">Load Random</button>
         </div>
+        <label>Start Node:<select class="my-2 ms-2"
+                    id="select-start"></select></label>
+        <label>End Node:<select class="my-2 ms-2"
+                    id="select-end"></select></label>
+        <button id="btn_calculate"
+                class="btn btn-secondary my-2"
+                type="button">calculate</button>
+        <button type="button"
+                class="btn btn-secondary my-2"
+                id="theme-toggle">toggle theme</button>
     </main>
     <div id="cy-canvas"
-         class="border boder-2 rounded-2 mt-2"></div>
+         </div>
 </body>
 
 </html>
