@@ -31,18 +31,17 @@
         }
 
         main.container {
-            flex: 0 0 320px;
-            /* fixed width, adjust as needed */
-            max-width: 350px;
-            min-width: 220px;
-            width: 100%;
+            flex: 0 0 180px;
+            /* Sidebar fixed width, adjust as needed */
+            max-width: 180px;
+            min-width: 180px;
             height: 100vh;
-            overflow-y: auto;
             z-index: 1;
         }
 
         #cy-canvas {
-            width: 100%;
+            flex: 1 1 0;
+            width: auto;
             height: 100vh;
             max-height: 100vh;
             min-width: 0;
@@ -55,17 +54,17 @@
 </head>
 
 <body class="d-flex flex-row">
-    <main class="container gap-3 d-flex w-auto ms-3 justify-content-center align-items-baseline flex-column">
+    <main class="container ps-2 gap-3 d-flex justify-content-center align-items-baseline flex-column">
         <h2 class="my-3">Let's try Dijkstra</h2>
         <select class="my-2"
                 name="choose"
                 id="choose"></select>
-        <div name="random-controls">
+        <div id="random-controls">
             <label for="density"
                    id="density-label"
                    class="form-label">Density: 40</label>
             <input type="range"
-                   class="form-range"
+                   class="form-range w-75"
                    min="5"
                    max="75"
                    step="5"
@@ -74,7 +73,7 @@
                    id="nodes-label"
                    class="form-label">Nodes: 15</label>
             <input type="range"
-                   class="form-range"
+                   class="form-range w-75"
                    min="5"
                    max="25"
                    step="1"
@@ -94,8 +93,8 @@
                 class="btn btn-secondary my-2"
                 id="theme-toggle">toggle theme</button>
     </main>
-    <div id="cy-canvas"
-         </div>
+    <div id="cy-canvas">
+    </div>
 </body>
 
 </html>
